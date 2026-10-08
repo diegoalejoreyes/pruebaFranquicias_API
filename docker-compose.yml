@@ -1,0 +1,24 @@
+services:
+  # Base de datos MongoDB
+  mongo:
+    image: mongo:7
+    container_name: franquicias-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db   # los datos sobreviven si se reinicia el contenedor
+
+  # Nuestra API Spring Boot
+  api:
+    build: .
+    container_name: franquicias-api
+    ports:
+      - "8080:8080"
+    environment:
+      # "mongo" es el nombre del servicio de arriba (Docker lo resuelve como host)
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongo:27017/franquicias}
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-data:
