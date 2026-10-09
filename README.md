@@ -54,7 +54,22 @@ docker compose up -d mongo
 mvn spring-boot:run
 ```
 
-### Usar una base de datos en la nube (MongoDB Atlas)
+### Persistencia de datos
+
+La solución usa **MongoDB**. La base de datos de la solución está alojada en
+**MongoDB Atlas** (plan gratuito, proveedor AWS, región XXXX).
+
+La conexión se configura con la variable de entorno `MONGODB_URI`:
+
+- **Sin configurar nada** (opción por defecto): la aplicación usa el MongoDB local
+  que levanta Docker Compose. No se requiere ninguna configuración adicional
+  para ejecutar el proyecto.
+- **Para conectarse a una base propia en MongoDB Atlas**:
+  - Con Docker: copiar `.env.example` como `.env` y colocar la cadena de conexión.
+  - Desde el IDE o Maven: definir la variable de entorno `MONGODB_URI` con la
+    cadena de conexión antes de ejecutar la aplicación.
+
+> El archivo `.env` contiene credenciales y no se sube al repositorio.
 
 Define la variable de entorno `MONGODB_URI` con la cadena de conexión de Atlas:
 
@@ -82,7 +97,6 @@ Base: `http://localhost:8080/api/franquicias`
 | Método | Ruta | Descripción |
 |--------|------|-------------|
 | POST | `/api/franquicias` | Crear franquicia |
-| GET | `/api/franquicias` | Listar franquicias |
 | GET | `/api/franquicias/{franquiciaId}` | Consultar una franquicia |
 | POST | `/api/franquicias/{franquiciaId}/sucursales` | Agregar sucursal |
 | PATCH | `/api/franquicias/{franquiciaId}/sucursales/{sucursalId}/nombre` | Actualizar nombre de sucursal |
